@@ -25,24 +25,17 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
-    try {
-      const response = await fetch('http://localhost:8000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+    try{
+      const response = await axios.post('http://172.16.2.41:8000/auth/login', {
           email: email.value,
-          password: password.value,
-        }),
-      });
-    
-      const responseData = await response.json();
-      console.log(responseData);
-    } catch (error) {
-      console.log("login failed: ", error);
+          password: password.value
+        }).then((response) => {
+          console.log(response.data)
+        });
+    }catch(error){
+      console.log("login failed: ", error)
+
     }
-    
     navigation.reset({
       index: 0,
       routes: [{ name: 'Dashboard' }],
