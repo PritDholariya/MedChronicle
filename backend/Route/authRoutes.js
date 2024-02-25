@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-
+const Doctor = require('../models/doctorModel');
+const Pharmacist = require('../models/pharmacistModel');
+const QRCode = require('qrcode');
 router.post("/signup", async (req, res) => {
     try {
         const { username, type, email, password, profile_photo, dob } = req.body;
@@ -12,10 +14,27 @@ router.post("/signup", async (req, res) => {
             return res.status(400).json({ error: 'User with this email already exists.' });
         }
 
-        // If no user with the provided email exists, create a new user
-        const user = new User({ username, type, email, password, profile_photo, dob });
-        await user.save();
-        res.status(201).json({ "username": user.username });
+        // Create a new user based on the type
+        let newUser;
+        if (type === 'doctor') {
+            const doctor = new Doctor();
+            await doctor.save();
+            newUser = new User({ username, type, email, password, profile_photo, dob, doctor_profile: doctor._id });
+        } else if (type === 'pharmacist') {
+            const pharmacist = new Pharmacist();
+            await pharmacist.save();
+            newUser = new User({ username, type, email, password, profile_photo, dob, pharmacist_profile: pharmacist._id });
+        } else {
+            const qrCodeData = JSON.stringify({ email });
+
+        // Generate QR code image
+            const qrCodeImage = await QRCode.toDataURL(qrCodeData);
+
+            newUser = new User({ username, type, email, password, profile_photo, dob,qr_code: qrCodeImage});
+        }
+
+        await newUser.save();
+        res.status(201).json({ "username": newUser.username });
     }
     catch (error) {
         console.error(error);
