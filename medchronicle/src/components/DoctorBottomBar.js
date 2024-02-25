@@ -3,18 +3,18 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const BottomBar = () => {
+const DoctorBottomBar = () => {
     const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Dashboard')}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DoctorDashBoard')}>
                 <AntDesign name="home" size={24} color="black" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Search')}>
-                <AntDesign name="search1" size={24} color="black" />
+                <AntDesign name="camera" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('History')}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Histor')}>
                 <AntDesign name="clockcircleo" size={24} color="black" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('UserProfile')}>
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BottomBar;
+export default DoctorBottomBar;

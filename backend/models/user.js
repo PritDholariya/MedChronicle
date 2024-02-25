@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
     dob: Date,
     doctor_profile: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' },
     pharmacist_profile: { type: mongoose.Schema.Types.ObjectId, ref: 'Pharmacist' },
-    qr_code : String,
+    qr_code: String,
+    weight: Number
 });
 
 module.exports = mongoose.model('User', userSchema);

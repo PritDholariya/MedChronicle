@@ -12,6 +12,8 @@ import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import axios from 'axios';
 import BASE_URL from '../../appconfig';
+// import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -29,17 +31,27 @@ export default function LoginScreen({ navigation }) {
       const response = await axios.post(`${BASE_URL}/auth/login`, {
         email: email.value,
         password: password.value
-      }).then((response) => {
+      }).then(async (response) => {
+        await AsyncStorage.setItem('user_id', response.data.user_id);
+
         console.log(response.data)
+        if (response.data.type == "patient") {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Dashboard' }],
+          })
+        }
+        else if (response.data.type == "doctor") {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'DoctorDashBoard' }],
+          })
+        }
       });
     } catch (error) {
       console.log("login failed: ", error)
 
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
   }
 
   return (

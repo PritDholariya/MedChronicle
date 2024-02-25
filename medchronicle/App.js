@@ -14,6 +14,9 @@ import {
 import MedicationDetail from './src/screens/MedicationDetail'
 import Search from './src/screens/Search'
 import DoctorDetails from './src/screens/DoctorDetails'
+import HistoryCard from './src/screens/HistoryCard'
+import UserProfile from './src/screens/UserProfile'
+import DoctorDashBoard from './src/screens/DoctorDashBoard'
 
 const Stack = createStackNavigator()
 
@@ -35,6 +38,10 @@ export default function App() {
           <Stack.Screen name="MedicationDetails" component={MedicationDetail} />
           <Stack.Screen name="DoctorDetails" component={DoctorDetails} />
           <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="History" component={HistoryCard} />
+          <Stack.Screen name="UserProfile" component={UserProfile} />
+          <Stack.Screen name="DoctorDashBoard" component={DoctorDashBoard} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

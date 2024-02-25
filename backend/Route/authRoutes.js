@@ -27,10 +27,10 @@ router.post("/signup", async (req, res) => {
         } else {
             const qrCodeData = JSON.stringify({ email });
 
-        // Generate QR code image
+            // Generate QR code image
             const qrCodeImage = await QRCode.toDataURL(qrCodeData);
 
-            newUser = new User({ username, type, email, password, profile_photo, dob,qr_code: qrCodeImage});
+            newUser = new User({ username, type, email, password, profile_photo, dob, qr_code: qrCodeImage });
         }
 
         await newUser.save();
@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
         }
 
         // Password is correct, user is authenticated
-        res.status(200).json({ message: 'Login successful.', username: user.username, type: user.type });
+        res.status(200).json({ message: 'Login successful.', user_id: user._id, type: user.type });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred.' });

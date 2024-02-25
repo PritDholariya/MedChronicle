@@ -2,19 +2,21 @@ const mongoose = require("mongoose");
 
 const AppointmentSchema = new mongoose.Schema(
     {
-        Doctor_id : {
-            type : [mongoose.Schema.Types.ObjectId],
-            ref : "Doctor",
-            required : true
+        Doctor_id: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: "Doctor",
+            required: true
         },
-        Patient_id : {
-            type : [mongoose.Schema.Types.ObjectId],
-            ref : "User",
-            required : true
+        Patient_id: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: "User",
+            required: true
         },
-        slot : {
-            type : String
+        slot: {
+            type: String
         },
+        Date_of_Appointment: Date,
+
         // Payment_id : {
         //     type : [mongoose.Schema.Types.ObjectId],
         //     ref : "Payment",
@@ -28,14 +30,14 @@ const AppointmentSchema = new mongoose.Schema(
         //     type : String,
         //     required : true
         // },
-        Day : {
-            type : String,
+        Day: {
+            type: String,
             // required : true
         }
     },
     {
-        timestamps : true,
+        timestamps: true,
     }
 );
 
-module.exports = mongoose.model("Appointment",AppointmentSchema);
+module.exports = mongoose.model("Appointment", AppointmentSchema);
