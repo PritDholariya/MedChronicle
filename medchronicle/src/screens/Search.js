@@ -1,29 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import Background from "../components/Background";
 import BottomBar from "../components/BottomBar";
 import { Feather } from '@expo/vector-icons';
 import DoctorCard from '../components/DoctorCard'; // Import DoctorCard component
 import { useNavigation } from '@react-navigation/native';
-
+import axios from 'axios';
+import BASE_URL from '../../appconfig';
 
 export default function Search() {
+    const [doctors, setDoctors] = useState([]);
     const navigation = useNavigation();
-    // Example doctor data
-    const doctors = [
-        { id: 1, name: 'Dr. John Doe', specialization: 'Cardiologist', pic: 'https://example.com/doctor1.jpg' },
-        { id: 2, name: 'Dr. Jane Smith', specialization: 'Dermatologist', pic: 'https://example.com/doctor2.jpg' },
-        { id: 3, name: 'Dr. John Doe', specialization: 'Cardiologist', pic: 'https://example.com/doctor1.jpg' },
-        { id: 23, name: 'Dr. Jane Smith', specialization: 'Dermatologist', pic: 'https://example.com/doctor2.jpg' },
-        { id: 12, name: 'Dr. John Doe', specialization: 'Cardiologist', pic: 'https://example.com/doctor1.jpg' },
-        { id: 24, name: 'Dr. Jane Smith', specialization: 'Dermatologist', pic: 'https://example.com/doctor2.jpg' },
-        { id: 1686, name: 'Dr. John Doe', specialization: 'Cardiologist', pic: 'https://example.com/doctor1.jpg' },
-        { id: 2499, name: 'Dr. Jane Smith', specialization: 'Dermatologist', pic: 'https://example.com/doctor2.jpg' },
-        { id: 190, name: 'Dr. John Doe', specialization: 'Cardiologist', pic: 'https://example.com/doctor1.jpg' },
-        { id: 2578, name: 'Dr. Jane Smith', specialization: 'Dermatologist', pic: 'https://example.com/doctor2.jpg' },
-        // Add more doctor data as needed
-    ];
+   
+    useEffect(() => {
+        // Fetch data from your backend API
+        fetchDataFromBackend();
+    }, []);
 
+
+    const fetchDataFromBackend = async () => {
+        try {
+            // Replace 'YOUR_BACKEND_API_ENDPOINT' with your actual backend API endpoint
+            const response = await axios.get(`${BASE_URL}/profile/alldoctors`);
+            setDoctors(response.data);
+            console.log(response.data)
+        } catch (error) {
+            console.error('Error fetching data from backend:', error);
+        }
+    };
     const handleDoctorPress = (doctor) => {
         // Navigate to doctor detail screen or perform other actions
         navigation.navigate('DoctorDetails', { doctor });
@@ -43,7 +47,7 @@ export default function Search() {
                 {/* Display doctor cards */}
                 <View style={styles.cardContainer}>
                     {doctors.map((doctor) => (
-                        <TouchableOpacity key={doctor.id} onPress={() => handleDoctorPress(doctor)}>
+                        <TouchableOpacity key={doctor._id} onPress={() => handleDoctorPress(doctor)}>
                             <DoctorCard doctor={doctor} />
                         </TouchableOpacity>
                     ))}
