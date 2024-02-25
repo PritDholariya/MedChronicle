@@ -17,6 +17,14 @@ import DoctorDetails from './src/screens/DoctorDetails'
 import HistoryCard from './src/screens/HistoryCard'
 import UserProfile from './src/screens/UserProfile'
 import DoctorDashBoard from './src/screens/DoctorDashBoard'
+import UserDetails from './src/screens/UserDetails'
+import QRScannerScreen from './src/screens/QRScannerScreen'
+import AppointmentDetails from './src/screens/AppointmentDetails'
+import MeetingScreen from './src/screens/MeetingScreen'
+import { PharmacistDashBoard } from './src/screens/PharmacistDashBoard'
+import AppointmentHistory from './src/screens/AppointmentHistory'
+import DoctorProfile from './src/screens/DoctorProfile'
+import CompleteProfile from './src/screens/CompleteProfile'
 
 const Stack = createStackNavigator()
 export default function App() {
@@ -40,6 +48,13 @@ export default function App() {
           <Stack.Screen name="History" component={HistoryCard} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
           <Stack.Screen name="DoctorDashBoard" component={DoctorDashBoard} />
+          <Stack.Screen name="MeetingScreen" component={MeetingScreen} />
+          <Stack.Screen name="PharmacistDashBoard" component={PharmacistDashBoard} />
+          <Stack.Screen name="QRScannerScreen" component={QRScannerScreen} />
+          <Stack.Screen name="UserDetails" component={UserDetails} />
+          <Stack.Screen name="DoctorProfile" component={DoctorProfile} /> 
+          <Stack.Screen name="AppointmentDetails" component={AppointmentDetails} />
+
 
           <Stack.Screen name="AppointmentHistory" component={AppointmentHistory} />
           <Stack.Screen name="CompleteProfile" component={CompleteProfile} />
