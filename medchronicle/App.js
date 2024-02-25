@@ -17,12 +17,8 @@ import DoctorDetails from './src/screens/DoctorDetails'
 import HistoryCard from './src/screens/HistoryCard'
 import UserProfile from './src/screens/UserProfile'
 import DoctorDashBoard from './src/screens/DoctorDashBoard'
-import AppointmentDetails from './src/screens/AppointmentDetails'
-import MeetingScreen from './src/screens/MeetingScreen'
-import { PharmacistDashBoard } from './src/screens/PharmacistDashBoard'
 
 const Stack = createStackNavigator()
-
 export default function App() {
   return (
     <Provider theme={theme}>
@@ -44,10 +40,9 @@ export default function App() {
           <Stack.Screen name="History" component={HistoryCard} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
           <Stack.Screen name="DoctorDashBoard" component={DoctorDashBoard} />
-          <Stack.Screen name="AppointmentDetails" component={AppointmentDetails} />
-          <Stack.Screen name="MeetingScreen" component={MeetingScreen} />
-          <Stack.Screen name="PharmacistDashBoard" component={PharmacistDashBoard} />
 
+          <Stack.Screen name="AppointmentHistory" component={AppointmentHistory} />
+          <Stack.Screen name="CompleteProfile" component={CompleteProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

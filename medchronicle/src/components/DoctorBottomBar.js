@@ -11,13 +11,13 @@ const DoctorBottomBar = () => {
             <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DoctorDashBoard')}>
                 <AntDesign name="home" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Search')}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('QRScannerScreen')}>
                 <AntDesign name="camera" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('Histor')}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('AppointmentHistory')}>
                 <AntDesign name="clockcircleo" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('UserProfile')}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate('DoctorProfile')}>
                 <AntDesign name="profile" size={24} color="black" />
             </TouchableOpacity>
         </View>
