@@ -74,10 +74,10 @@ const UserProfile = ({ userId }) => {
                             <Text style={styles.username}>{user.user.username}</Text>
                             <Text style={styles.email}>{user.user.email}</Text>
                             <Text style={styles.dob}>{user.user.dob}</Text>
-                            {user.user.email && (
+                            {user.user._id && (
                                 <View style={styles.qrCodeContainer}>
                                     <QRCode
-                                        content={user.user.email}
+                                        content={user.user._id}
                                         size={200}
                                         color="#000"
                                         backgroundColor="#fff"

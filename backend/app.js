@@ -8,6 +8,8 @@ const QRCode = require('qrcode');
 const cookieParser = require('cookie-parser');
 const authRoutes = require("./Route/authRoutes");
 const profileRoutes = require("./Route/profileRoute");
+const prescriptionRoutes = require("./Route/prescriptionRoutes");
+// import prescriptionRoutes from './Route/prescriptionRoutes'
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -32,6 +34,7 @@ app.get('/', async (req, res) =>{
 // });
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
+app.use('/prescription', prescriptionRoutes);
 const port = process.env.PORT || 8000;
 
 

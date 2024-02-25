@@ -13,7 +13,7 @@ import { theme } from '../core/theme';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { nameValidator } from '../helpers/nameValidator';
-import BASE_URL from '../../apiconfig';
+import BASE_URL from '../../appconfig';
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' });
@@ -42,7 +42,7 @@ export default function RegisterScreen({ navigation }) {
     }
 
     try {
-      const response = await axios.post('http://192.168.176.223:8000/auth/signup', {
+      const response = await axios.post(`${BASE_URL}/auth/signup`, {
         username: name.value,
         email: email.value,
         password: password.value,
@@ -55,24 +55,28 @@ export default function RegisterScreen({ navigation }) {
       console.log("signUp failed: ", error);
     }
 
-    if (selectedType === 'patient') {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Dashboard' }],
-      });
-    } else if(selectedType === 'doctor'){
-      // Redirect to the default dashboard or another screen for other types
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'DoctorDashBoard' }],
-      });
-    }
-    else{
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'PharmacistDashBoard' }],
-      });
-    }
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'LoginScreen' }],
+    });
+  //   if (selectedType === 'patient') {
+  //     navigation.reset({
+  //       index: 0,
+  //       routes: [{ name: 'Dashboard' }],
+  //     });
+  //   } else if(selectedType === 'doctor'){
+  //     // Redirect to the default dashboard or another screen for other types
+  //     navigation.reset({
+  //       index: 0,
+  //       routes: [{ name: 'DoctorDashBoard' }],
+  //     });
+  //   }
+  //   else{
+  //     navigation.reset({
+  //       index: 0,
+  //       routes: [{ name: 'PharmacistDashBoard' }],
+  //     });
+  //   }
   };
 
   const toggleDatepicker = () => {
