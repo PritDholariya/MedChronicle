@@ -74,7 +74,21 @@ router.post('/user', async (req, res) => {
     res.status(200).json({ message: 'Doctor send.', user });
 
 })
+
+
+router.get('/alldoctors', async (req, res) => {
+    try {
+        const doctors = await User.find({ type: 'doctor' }).populate('doctor_profile');
+        res.json(doctors);
+    } catch (error) {
+        console.error('Error fetching all doctors:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
 router.post('/updatepharmacist', async (req, res) => {
+
     try {
         const pharmacistId = req.body.id;
         const {

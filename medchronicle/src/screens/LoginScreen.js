@@ -47,6 +47,12 @@ export default function LoginScreen({ navigation }) {
             routes: [{ name: 'DoctorDashBoard' }],
           })
         }
+        else if (response.data.type == "pharmacist") {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'PharmacistDashBoard' }],
+          })
+        }
       });
     } catch (error) {
       console.log("login failed: ", error)

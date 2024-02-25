@@ -65,7 +65,7 @@ const CompleteProfile = () => {
             });
         }
         catch (error) {
-            console.log("login failed: ", error)
+            console.log("profile not updated: ", error)
 
         }
     };

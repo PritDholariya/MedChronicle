@@ -1,55 +1,131 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
-import { Text } from 'react-native-paper'
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
-import BackButton from '../components/BackButton'
-import { theme } from '../core/theme'
-import { emailValidator } from '../helpers/emailValidator'
-import { passwordValidator } from '../helpers/passwordValidator'
-import { nameValidator } from '../helpers/nameValidator'
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, Pressable, Platform } from 'react-native';
+import { Text } from 'react-native-paper';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import axios from 'axios';
+import Background from '../components/Background';
+import Logo from '../components/Logo';
+import Header from '../components/Header';
+import Button from '../components/Button';
+import TextInput from '../components/TextInput';
+import BackButton from '../components/BackButton';
+import { theme } from '../core/theme';
+import { emailValidator } from '../helpers/emailValidator';
+import { passwordValidator } from '../helpers/passwordValidator';
+import { nameValidator } from '../helpers/nameValidator';
+import BASE_URL from '../../apiconfig';
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState({ value: '', error: '' })
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-  const [dob, setDob] = useState({ value: '12/02/2003', error: '' })
+  const [name, setName] = useState({ value: '', error: '' });
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+  const [selectedType, setSelectedType] = useState('patient');
 
-  const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value)
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
+  const onSignUpPressed = async () => {
+    const nameError = nameValidator(name.value);
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
+
+    console.log(dateOfBirth);
+    console.log(name.value);
+    console.log(email.value);
+    console.log(password.value);
+    console.log(selectedType);
+
     if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError })
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
+      setName({ ...name, error: nameError });
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
-  }
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+    try {
+      const response = await axios.post('http://192.168.176.223:8000/auth/signup', {
+        username: name.value,
+        email: email.value,
+        password: password.value,
+        dob: dateOfBirth,
+        type : selectedType,
+      });
+
+      console.log("Signin Successful", response.data);
+    } catch (error) {
+      console.log("signUp failed: ", error);
+    }
+
+    if (selectedType === 'patient') {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Dashboard' }],
+      });
+    } else if(selectedType === 'doctor'){
+      // Redirect to the default dashboard or another screen for other types
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'DoctorDashBoard' }],
+      });
+    }
+    else{
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'PharmacistDashBoard' }],
+      });
+    }
   };
 
-  const changeNum = (num) => {
-    formatNum = num.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-    this.setState({
-      num: formatNum
-    });
-  }
+  const toggleDatepicker = () => {
+    setShowPicker(!showPicker);
+  };
+
+  const onChange = ({ type }, selectedDate) => {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+
+      if (Platform.OS === "android") {
+        toggleDatepicker();
+        setDateOfBirth(currentDate.toDateString());
+      }
+    } else {
+      toggleDatepicker();
+    }
+  };
+
+  const handleTypeChange = (type) => {
+    setSelectedType(type);
+  };
 
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
       <Header>Create Account</Header>
+
+      <View style={styles.radioGroup}>
+        <TouchableOpacity
+          style={[styles.radioButton, selectedType === 'patient' && styles.selectedRadioButton]}
+          onPress={() => handleTypeChange('patient')}
+        >
+          <Text style={[styles.radioText, selectedType === 'patient' && styles.selectedRadioText]}>Patient</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.radioButton, selectedType === 'doctor' && styles.selectedRadioButton]}
+          onPress={() => handleTypeChange('doctor')}
+        >
+          <Text style={[styles.radioText, selectedType === 'doctor' && styles.selectedRadioText]}>Doctor</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.radioButton, selectedType === 'pharmacist' && styles.selectedRadioButton]}
+          onPress={() => handleTypeChange('pharmacist')}
+        >
+          <Text style={[styles.radioText, selectedType === 'pharmacist' && styles.selectedRadioText]}>Pharmacist</Text>
+        </TouchableOpacity>
+      </View>
+
       <TextInput
         label="Name"
         returnKeyType="next"
@@ -79,15 +155,34 @@ export default function RegisterScreen({ navigation }) {
         errorText={password.error}
         secureTextEntry
       />
+    
+      <View>
+        <Text style={styles.label}>Date of Birth : </Text>
 
-      <TextInput
-        label="dd/mm/yyyy"
-        returnKeyType="next"
-        value={dob.value}
-        onChangeText={(num) => this.changeNum(num)}
-        error={!!dob.error}
-        errorText={dob.error}
-      />
+        {showPicker && (
+          <DateTimePicker
+            mode='date'
+            display='spinner'
+            value={date}
+            onChange={onChange}
+          />
+        )}
+
+        {!showPicker && (
+          <Pressable
+            onPress={toggleDatepicker}
+          >
+            <TextInput
+              style={styles.input}
+              placeholder="Sat Aug 21 2004"
+              value={dateOfBirth}
+              onChangeText={setDateOfBirth}
+              placeholderTextColor="#11182744"
+              editable={false}
+            />
+          </Pressable>
+        )}
+      </View>
 
       <Button
         mode="contained"
@@ -103,7 +198,7 @@ export default function RegisterScreen({ navigation }) {
         </TouchableOpacity>
       </View>
     </Background>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -115,4 +210,49 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: theme.colors.primary,
   },
-})
+  label: {
+    fontSize: 13,
+    fontWeight: "500",
+    marginBottom: 10,
+    color: "#111827cc",
+  },
+  input: {
+    backgroundColor: "transparent",
+    height: 50,
+    fontSize: 14,
+    fontWeight: "500",
+    color: "111827cc",
+    borderRadius: 50,
+    borderWidth: 1.5,
+    borderColor: "#11182711",
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  radioButton: {
+    flex: 1,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 2,
+    margin : 2,
+    borderColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  selectedRadioButton: {
+    borderColor: 'blue',
+    backgroundColor: 'lightblue',
+  },
+  radioText: {
+    fontSize: 16,
+  },
+  selectedRadioText: {
+    color: 'blue',
+    fontWeight: 'bold',
+  },
+});
