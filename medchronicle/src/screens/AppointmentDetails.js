@@ -5,6 +5,7 @@ import Background from '../components/Background';
 import CustomHeader from '../components/CustomHeader';
 import { theme } from '../core/theme';
 import { Ionicons } from '@expo/vector-icons';
+import BASE_URL from '../../appconfig';
 
 const AppointmentDetails = ({ route }) => {
   const navigation = useNavigation();
@@ -19,14 +20,19 @@ const AppointmentDetails = ({ route }) => {
     // Navigate to the MeetingScreen
     navigation.navigate('DoctorDashBoard');
   };
-
+  const handleLogout = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "StartScreen" }],
+    });
+  };
   const toggleCompletion = () => {
     setIsCompleted((prev) => !prev);
   };
 
   return (
     <>
-      <CustomHeader />
+      <CustomHeader title="MedChronicle" onLogoutPress={handleLogout} />
       <Background>
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.container}>

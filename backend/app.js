@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require("./Route/authRoutes");
 const profileRoutes = require("./Route/profileRoute");
 const addAppoinment = require("./Route/addAppoinment");
+const prescriptionRoutes = require("./Route/prescriptionRoutes");
+// import prescriptionRoutes from './Route/prescriptionRoutes'
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -35,6 +37,7 @@ app.get('/', async (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/doctor', addAppoinment);
+app.use('/prescription', prescriptionRoutes);
 const port = process.env.PORT || 8000;
 
 

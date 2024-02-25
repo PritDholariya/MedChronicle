@@ -6,6 +6,7 @@ const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fri
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import BASE_URL from '../../appconfig';
 
 const AppointmentForm = ({ route }) => {
     const navigation = useNavigation();
@@ -42,7 +43,7 @@ const AppointmentForm = ({ route }) => {
         console.log('Selected Day:', selectedDay);
         console.log('Selected Slot:', selectedSlot);
         try {
-            const response = await axios.post('http://192.168.128.40:8000/doctor/appointments', {
+            const response = await axios.post(`${BASE_URL}/doctor/appointments`, {
                 Doctor_id: doctor._id,
                 Patient_id: token,
                 slot: selectedSlot,

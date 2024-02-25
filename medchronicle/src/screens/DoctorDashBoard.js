@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import AppointmentCard from '../components/AppoinmentCard'; // Corrected import statement
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BASE_URL from '../../appconfig';
 
 export default function DoctorDashboard() {
     const navigation = useNavigation();
@@ -21,7 +22,7 @@ export default function DoctorDashboard() {
         const token = await AsyncStorage.getItem('user_id');
         console.log(token)
         try {
-            const response = await axios.post('http://192.168.128.40:8000/doctor/allappoitment', {
+            const response = await axios.post(`${BASE_URL}/doctor/allappoitment`, {
                 doctorId: token,
             });
             setAppointments(response.data.appointments);

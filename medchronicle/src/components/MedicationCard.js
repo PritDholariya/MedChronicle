@@ -3,15 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-nati
 
 const windowWidth = Dimensions.get('window').width;
 
-const MedicationCard = ({ medication, onPress }) => {
+const MedicationCard = ({ medication}) => {
     return (
-        <TouchableOpacity onPress={onPress}>
+        // <TouchableOpacity onPress={onPress}>
             <View style={[styles.card, { width: windowWidth - 40 }]}>
                 <Text style={styles.medicationName}>{medication.name}</Text>
-                <Text>Time: {medication.time}</Text>
                 <Text>Dosage: {medication.dosage}</Text>
+                <Text>Times:</Text>
+                {medication.times.map((time, index) => (
+                    <Text key={index}>{time}</Text>
+                ))}
             </View>
-        </TouchableOpacity>
+        // </TouchableOpacity>
     );
 };
 

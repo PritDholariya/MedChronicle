@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { QRCode } from 'react-native-custom-qr-codes'; // Import QRCode component
-import BottomBar from '../components/BottomBar';
+
 import Background from '../components/Background';
 // import { getUserById } from '../api/user'; // Function to fetch user data from API
-import CustomHeader from '../components/CustomHeader';
+
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -12,6 +12,7 @@ import BASE_URL from '../../appconfig';
 
 const UserProfile = ({ userId }) => {
     const navigation = useNavigation();
+    const [medication, setmedication] = useState([]);
 
     const [user, setUser] = useState(null);
     const handleLogout = () => {
@@ -61,7 +62,7 @@ const UserProfile = ({ userId }) => {
 
     return (
         <>
-            <CustomHeader title="MedChronicle" onLogoutPress={handleLogout} />
+
             <View style={styles.container} >
 
                 <Background style={styles.background}>
@@ -74,10 +75,10 @@ const UserProfile = ({ userId }) => {
                             <Text style={styles.username}>{user.user.username}</Text>
                             <Text style={styles.email}>{user.user.email}</Text>
                             <Text style={styles.dob}>{user.user.dob}</Text>
-                            {user.user.email && (
+                            {user.user._id && (
                                 <View style={styles.qrCodeContainer}>
                                     <QRCode
-                                        content={user.user.email}
+                                        content={user.user._id}
                                         size={200}
                                         color="#000"
                                         backgroundColor="#fff"
@@ -87,7 +88,7 @@ const UserProfile = ({ userId }) => {
                         </View>
                     )}
                 </Background>
-                <BottomBar />
+                {/* <BottomBar /> */}
             </View>
         </>
     );

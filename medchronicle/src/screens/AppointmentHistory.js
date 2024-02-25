@@ -6,6 +6,7 @@ import AppointmentCard from '../components/AppoinmentCard'; // Import Appointmen
 import DoctorBottomBar from '../components/DoctorBottomBar';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import BASE_URL from '../../appconfig';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -30,7 +31,7 @@ const AppointmentHistory = () => {
         const token = await AsyncStorage.getItem('user_id');
         console.log(token)
         try {
-            const response = await axios.post('http://192.168.128.40:8000/doctor/allappoitment', {
+            const response = await axios.post(`${BASE_URL}/doctor/allappoitment`, {
                 doctorId: token,
             });
             setAppointments(response.data.appointments);
@@ -50,7 +51,7 @@ const AppointmentHistory = () => {
                             <AppointmentCard
                                 key={medication._id}
                                 appointment={medication}
-                                onPress={() => handleMedicationPress(medication)}
+                            // onPress={() => handleMedicationPress(medication)}
                             />
                         ))}
                     </View>
