@@ -11,7 +11,7 @@ import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 import axios from 'axios';
-
+import BASE_URL from '../../appconfig';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -25,14 +25,14 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
-    try{
-      const response = await axios.post('http://172.16.2.41:8000/auth/login', {
-          email: email.value,
-          password: password.value
-        }).then((response) => {
-          console.log(response.data)
-        });
-    }catch(error){
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
+        email: email.value,
+        password: password.value
+      }).then((response) => {
+        console.log(response.data)
+      });
+    } catch (error) {
       console.log("login failed: ", error)
 
     }

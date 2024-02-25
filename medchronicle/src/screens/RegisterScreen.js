@@ -16,6 +16,7 @@ export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
+  const [dob, setDob] = useState({ value: '12/02/2003', error: '' })
 
   const onSignUpPressed = () => {
     const nameError = nameValidator(name.value)
@@ -31,6 +32,17 @@ export default function RegisterScreen({ navigation }) {
       index: 0,
       routes: [{ name: 'Dashboard' }],
     })
+  }
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const changeNum = (num) => {
+    formatNum = num.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    this.setState({
+      num: formatNum
+    });
   }
 
   return (
@@ -67,6 +79,16 @@ export default function RegisterScreen({ navigation }) {
         errorText={password.error}
         secureTextEntry
       />
+
+      <TextInput
+        label="dd/mm/yyyy"
+        returnKeyType="next"
+        value={dob.value}
+        onChangeText={(num) => this.changeNum(num)}
+        error={!!dob.error}
+        errorText={dob.error}
+      />
+
       <Button
         mode="contained"
         onPress={onSignUpPressed}
