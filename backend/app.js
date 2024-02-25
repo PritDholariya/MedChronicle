@@ -8,22 +8,24 @@ const QRCode = require('qrcode');
 const cookieParser = require('cookie-parser');
 const authRoutes = require("./Route/authRoutes");
 const profileRoutes = require("./Route/profileRoute");
+const addAppoinment = require("./Route/addAppoinment");
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
 connectDB();
-const corsOptions ={
-    origin:'*', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200,
+const corsOptions = {
+  origin: '*',
+  credentials: true,            //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
 }
 
 app.use(cors(corsOptions));
-app.get('/', async (req, res) =>{ 
-    
-//    console.log(qrCodeImage)
-    res.send('Hello world!')});
+app.get('/', async (req, res) => {
+
+  //    console.log(qrCodeImage)
+  res.send('Hello world!')
+});
 // app.get('/add_user', async (req, res) => {
 //     const { username, type, email } = req.body;
 //     const user = new User({ username, type, email });
@@ -32,6 +34,7 @@ app.get('/', async (req, res) =>{
 // });
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
+app.use('/doctor', addAppoinment);
 const port = process.env.PORT || 8000;
 
 

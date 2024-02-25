@@ -13,7 +13,7 @@ import { theme } from '../core/theme';
 import { emailValidator } from '../helpers/emailValidator';
 import { passwordValidator } from '../helpers/passwordValidator';
 import { nameValidator } from '../helpers/nameValidator';
-import BASE_URL from '../../apiconfig';
+// import BASE_URL from '../../apiconfig';
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' });
@@ -42,12 +42,12 @@ export default function RegisterScreen({ navigation }) {
     }
 
     try {
-      const response = await axios.post('http://192.168.176.223:8000/auth/signup', {
+      const response = await axios.post('http://192.168.128.40:8000/auth/signup', {
         username: name.value,
         email: email.value,
         password: password.value,
         dob: dateOfBirth,
-        type : selectedType,
+        type: selectedType,
       });
 
       console.log("Signin Successful", response.data);
@@ -60,14 +60,14 @@ export default function RegisterScreen({ navigation }) {
         index: 0,
         routes: [{ name: 'Dashboard' }],
       });
-    } else if(selectedType === 'doctor'){
+    } else if (selectedType === 'doctor') {
       // Redirect to the default dashboard or another screen for other types
       navigation.reset({
         index: 0,
         routes: [{ name: 'DoctorDashBoard' }],
       });
     }
-    else{
+    else {
       navigation.reset({
         index: 0,
         routes: [{ name: 'PharmacistDashBoard' }],
@@ -155,7 +155,7 @@ export default function RegisterScreen({ navigation }) {
         errorText={password.error}
         secureTextEntry
       />
-    
+
       <View>
         <Text style={styles.label}>Date of Birth : </Text>
 
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     borderWidth: 2,
-    margin : 2,
+    margin: 2,
     borderColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',

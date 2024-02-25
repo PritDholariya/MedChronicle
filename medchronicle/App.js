@@ -25,6 +25,7 @@ import { PharmacistDashBoard } from './src/screens/PharmacistDashBoard'
 import AppointmentHistory from './src/screens/AppointmentHistory'
 import DoctorProfile from './src/screens/DoctorProfile'
 import CompleteProfile from './src/screens/CompleteProfile'
+import AppointmentForm from './src/screens/AppointmentForm'
 
 const Stack = createStackNavigator()
 export default function App() {
@@ -52,12 +53,12 @@ export default function App() {
           <Stack.Screen name="PharmacistDashBoard" component={PharmacistDashBoard} />
           <Stack.Screen name="QRScannerScreen" component={QRScannerScreen} />
           <Stack.Screen name="UserDetails" component={UserDetails} />
-          <Stack.Screen name="DoctorProfile" component={DoctorProfile} /> 
+          <Stack.Screen name="DoctorProfile" component={DoctorProfile} />
           <Stack.Screen name="AppointmentDetails" component={AppointmentDetails} />
-
-
           <Stack.Screen name="AppointmentHistory" component={AppointmentHistory} />
           <Stack.Screen name="CompleteProfile" component={CompleteProfile} />
+          <Stack.Screen name="AppointmentForm" component={AppointmentForm} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

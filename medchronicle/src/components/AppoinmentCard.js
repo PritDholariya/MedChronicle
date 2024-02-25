@@ -7,8 +7,8 @@ const AppoinmentCard = ({ appointment, onPress }) => {
     return (
         <TouchableOpacity onPress={onPress}>
             <View style={[styles.card, { width: windowWidth - 40 }]}>
-                <Text style={styles.medicationName}>{appointment.patientname}</Text>
-                <Text>Date: {appointment.date}</Text>
+                {/* <Text style={styles.medicationName}>{appointment.patientname}</Text> */}
+                <Text>Date: {appointment.Date_of_Appointment}</Text>
                 <Text>Time: {appointment.slot}</Text>
             </View>
         </TouchableOpacity>

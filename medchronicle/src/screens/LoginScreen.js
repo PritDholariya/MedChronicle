@@ -28,6 +28,7 @@ export default function LoginScreen({ navigation }) {
       return
     }
     try {
+      console.log(BASE_URL)
       const response = await axios.post(`${BASE_URL}/auth/login`, {
         email: email.value,
         password: password.value

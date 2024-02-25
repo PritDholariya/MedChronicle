@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Background from '../components/Background';
 import CustomHeader from '../components/CustomHeader';
-import MedicationCard from '../components/MedicationCard'; // Import MedicationCard component
+import MedicationCard from '../components/MedicationCard';
 import DoctorBottomBar from '../components/DoctorBottomBar';
 import { useNavigation } from '@react-navigation/native';
-import AppoinmentCard from '../components/AppoinmentCard';
+import AppointmentCard from '../components/AppoinmentCard'; // Corrected import statement
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-export default function DoctorDashBoard() {
+export default function DoctorDashboard() {
     const navigation = useNavigation();
+    const [appointments, setAppointments] = useState([]);
+
+    useEffect(() => {
+        fetchAppointments();
+    }, []);
+
+    const fetchAppointments = async () => {
+        const token = await AsyncStorage.getItem('user_id');
+        console.log(token)
+        try {
+            const response = await axios.post('http://192.168.128.40:8000/doctor/allappoitment', {
+                doctorId: token,
+            });
+            setAppointments(response.data.appointments);
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
+        }
+    };
 
     const handleLogout = () => {
         navigation.reset({
@@ -21,25 +40,6 @@ export default function DoctorDashBoard() {
     const handleMedicationPress = (medication) => {
         navigation.navigate('AppointmentDetails', { medication });
     };
-
-    // Example medication data
-    const medications = [
-        { id: 1, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 10, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 174, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 142, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 167, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 156, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 189, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 190, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 187, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 14578, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 1678, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-        { id: 1986, patientname: 'Medication A', time: '8:00 AM', date: '1 pill' },
-
-
-    ];
-
     return (
         <View style={{ flex: 1 }}>
             <CustomHeader title="MedChronicle" onLogoutPress={handleLogout} />
@@ -47,9 +47,9 @@ export default function DoctorDashBoard() {
                 <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
                     <View style={styles.container}>
                         <Text style={styles.sectionTitle}>Upcoming Appointments</Text>
-                        {medications.map((medication) => (
-                            <AppoinmentCard
-                                key={medication.id}
+                        {appointments.map((medication) => (
+                            <AppointmentCard
+                                key={medication._id}
                                 appointment={medication}
                                 onPress={() => handleMedicationPress(medication)}
                             />

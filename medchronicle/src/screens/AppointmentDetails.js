@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 const AppointmentDetails = ({ route }) => {
   const navigation = useNavigation();
   const { medication } = route.params;
-
+  console.log(medication)
   const [isCompleted, setIsCompleted] = useState(false);
 
   // Example function to handle navigating to the meeting screen
@@ -17,7 +17,7 @@ const AppointmentDetails = ({ route }) => {
     // Implement your logic to join the meeting here
     console.log('Joining the meeting...');
     // Navigate to the MeetingScreen
-    navigation.navigate('MeetingScreen');
+    navigation.navigate('DoctorDashBoard');
   };
 
   const toggleCompletion = () => {
@@ -32,29 +32,22 @@ const AppointmentDetails = ({ route }) => {
           <View style={styles.container}>
             <Text style={styles.header}>Appointment Details</Text>
             <View style={styles.detailContainer}>
-              <View style={styles.detailItem}>
-                <Text style={styles.detailLabel}>Name:</Text>
-                <Text style={styles.detailText}>{medication.patientname}</Text>
-              </View>
+
               <View style={styles.detailLine} />
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Time:</Text>
-                <Text style={styles.detailText}>{medication.time}</Text>
+                <Text style={styles.detailText}>{medication.slot}</Text>
               </View>
               <View style={styles.detailLine} />
+
               <View style={styles.detailItem}>
-                <Text style={styles.detailLabel}>Dosage:</Text>
-                <Text style={styles.detailText}>{medication.dosage}</Text>
-              </View>
-              <View style={styles.detailLine} />
-              <View style={styles.detailItem}>
-                <Text style={styles.detailLabel}>Frequency:</Text>
-                <Text style={styles.detailText}>{medication.frequency}</Text>
+                <Text style={styles.detailLabel}>Day:</Text>
+                <Text style={styles.detailText}>{medication.Day}</Text>
               </View>
               <View style={styles.detailLine} />
               <View style={styles.detailItem}>
                 <Text style={styles.detailLabel}>Date:</Text>
-                <Text style={styles.detailText}>{medication.date}</Text>
+                <Text style={styles.detailText}>{medication.Date_of_Appointment}</Text>
               </View>
               <View style={styles.detailLine} />
 
@@ -70,7 +63,7 @@ const AppointmentDetails = ({ route }) => {
 
               {/* Join Meeting Button */}
               <TouchableOpacity onPress={joinMeeting} style={styles.joinMeetingButton}>
-                <Text style={styles.joinMeetingText}>Create Meeting</Text>
+                <Text style={styles.joinMeetingText}>Appoinment Completed</Text>
               </TouchableOpacity>
             </View>
             {/* Add additional information here */}

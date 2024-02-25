@@ -1,59 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, SafeAreaView, TextInput, ScrollView, TouchableOpacity, Text } from 'react-native';
 import Background from "../components/Background";
 import BottomBar from "../components/BottomBar";
 import { Feather } from '@expo/vector-icons';
-import DoctorCard from '../components/DoctorCard'; // Import DoctorCard component
+import DoctorCard from '../components/DoctorCard';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import BASE_URL from '../../appconfig';
 
 export default function Search() {
     const [doctors, setDoctors] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const navigation = useNavigation();
-   
+
     useEffect(() => {
-        // Fetch data from your backend API
         fetchDataFromBackend();
     }, []);
 
-
     const fetchDataFromBackend = async () => {
         try {
-            // Replace 'YOUR_BACKEND_API_ENDPOINT' with your actual backend API endpoint
             const response = await axios.get(`${BASE_URL}/profile/alldoctors`);
             setDoctors(response.data);
-            console.log(response.data)
         } catch (error) {
             console.error('Error fetching data from backend:', error);
         }
     };
+
     const handleDoctorPress = (doctor) => {
-        // Navigate to doctor detail screen or perform other actions
         navigation.navigate('DoctorDetails', { doctor });
     };
 
+    const filteredDoctors = doctors.filter((doctor) => {
+        const name = doctor.username ? doctor.username.toLowerCase() : '';
+        const specialization = doctor.doctor_profile.specialization ? doctor.doctor_profile.specialization.toLowerCase() : '';
+        const searchTermLower = searchTerm.toLowerCase();
+        return name.includes(searchTermLower) || specialization.includes(searchTermLower);
+    });
+
+
     return (
         <SafeAreaView style={styles.container}>
-            {/* <Background style={styles.background}> */}
             <View style={styles.searchContainer}>
                 <Feather name="search" size={24} color="black" style={styles.searchIcon} />
                 <TextInput
                     style={styles.input}
                     placeholder="Search..."
+                    value={searchTerm}
+                    onChangeText={(text) => setSearchTerm(text)}
                 />
             </View>
             <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
-                {/* Display doctor cards */}
-                <View style={styles.cardContainer}>
-                    {doctors.map((doctor) => (
-                        <TouchableOpacity key={doctor._id} onPress={() => handleDoctorPress(doctor)}>
-                            <DoctorCard doctor={doctor} />
-                        </TouchableOpacity>
-                    ))}
-                </View>
+                {filteredDoctors.length > 0 ? (
+                    <View style={styles.cardContainer}>
+                        {filteredDoctors.map((doctor) => (
+                            <TouchableOpacity key={doctor._id} onPress={() => handleDoctorPress(doctor)}>
+                                <DoctorCard doctor={doctor} />
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                ) : (
+                    <View style={styles.noResultsContainer}>
+                        <Text style={styles.noResultsText}>No results found</Text>
+                    </View>
+                )}
             </ScrollView>
-            {/* </Background> */}
             <BottomBar />
         </SafeAreaView>
     );
@@ -61,9 +71,6 @@ export default function Search() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-    },
-    background: {
         flex: 1,
     },
     scrollView: {
@@ -89,5 +96,15 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         paddingHorizontal: 20,
+    },
+    noResultsContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    noResultsText: {
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
