@@ -2,13 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Background from '../components/Background';
 import CustomHeader from '../components/CustomHeader';
-import MedicationCard from '../components/MedicationCard'; // Import MedicationCard component
-import DoctorBottomBar from '../components/DoctorBottomBar';
+import PharmacistBottomBar from '../components/PharmacistBottomBar';
 import { useNavigation } from '@react-navigation/native';
 import AppoinmentCard from '../components/AppoinmentCard';
 
-
-export default function DoctorDashBoard() {
+export function PharmacistDashBoard() {
     const navigation = useNavigation();
 
     const handleLogout = () => {
@@ -57,7 +55,7 @@ export default function DoctorDashBoard() {
                     </View>
                 </ScrollView>
             </Background>
-            <DoctorBottomBar />
+            <PharmacistBottomBar />
         </View>
     );
 }
